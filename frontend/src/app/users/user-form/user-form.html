@@ -1,76 +1,49 @@
-<form (ngSubmit)="onSubmit()" #formRef="ngForm" class="user-form">
+<form (submit)="$event.preventDefault(); sauvegarder()" class="user-form">
   <h3>Ajouter un utilisateur</h3>
 
-  <!-- Nom -->
   <div class="champ">
     <label for="nom">Nom *</label>
-    <input
-      id="nom"
-      type="text"
-      [ngModel]="nom()"
-      (ngModelChange)="nom.set($event)"
-      name="nom"
-      placeholder="Alice Dupont"
-      [class.invalide]="envoye() && !nomValide()"
-    />
-    @if (envoye() && !nomValide()) {
-      <p class="erreur">Le nom doit contenir au moins 2 caractères.</p>
+    <input id="nom" type="text" [formField]="userForm.nom" />
+    @if (userForm.nom().touched() && userForm.nom().invalid()) {
+      <p class="erreur">{{ userForm.nom().errors()[0].message }}</p>
     }
   </div>
 
-  <!-- Email -->
   <div class="champ">
     <label for="email">Email *</label>
-    <input
-      id="email"
-      type="email"
-      [ngModel]="email()"
-      (ngModelChange)="email.set($event)"
-      name="email"
-      placeholder="alice@exemple.com"
-      [class.invalide]="envoye() && !emailValide()"
-    />
-    @if (envoye() && !emailValide()) {
-      <p class="erreur">Veuillez saisir un email valide.</p>
+    <input id="email" type="email" [formField]="userForm.email" />
+    @if (userForm.email().touched() && userForm.email().invalid()) {
+      <p class="erreur">{{ userForm.email().errors()[0].message }}</p>
     }
   </div>
 
-  <!-- Rôle -->
   <div class="champ">
     <label for="role">Rôle *</label>
-    <select
-      id="role"
-      [ngModel]="role()"
-      (ngModelChange)="role.set($event)"
-      name="role"
-    >
+    <select id="role" [formField]="userForm.role">
       <option value="user">Utilisateur</option>
       <option value="admin">Administrateur</option>
       <option value="guest">Invité</option>
     </select>
   </div>
 
-  <!-- Actif -->
   <div class="champ-checkbox">
     <label>
-      <input
-        type="checkbox"
-        [ngModel]="actif()"
-        (ngModelChange)="actif.set($event)"
-        name="actif"
-      />
+      <input type="checkbox" [formField]="userForm.actif" />
       Compte actif
     </label>
   </div>
 
-  <!-- Boutons -->
   <div class="actions">
     <button
       type="submit"
-      [disabled]="!formulaireValide()"
+      [disabled]="userForm().invalid() || userForm().submitting()"
       class="btn-ajouter"
     >
-      Ajouter
+      @if (userForm().submitting()) {
+        Envoi en cours...
+      } @else {
+        Ajouter
+      }
     </button>
     <button type="button" (click)="reset()" class="btn-reset">
       Réinitialiser

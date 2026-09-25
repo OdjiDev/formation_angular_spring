@@ -1,0 +1,26 @@
+{
+  "users": [
+    {
+      "id": "2",
+      "nom": "Bob Martin",
+      "email": "bob@exemple.com",
+      "role": "user",
+      "actif": true
+    },
+    {
+      "id": "3",
+      "nom": "C Petit",
+      "email": "claire@exemple.com",
+      "role": "guest",
+      "actif": false
+    },
+    {
+      "nom": "dxsac",
+      "email": "ouzairoudjire67@gmail.com",
+      "role": "admin",
+      "actif": true,
+      "id": "_IPx72Xyj4w"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}

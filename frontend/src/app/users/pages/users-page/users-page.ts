@@ -1,7 +1,7 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, OnInit } from '@angular/core';
 import { UserCard } from '../../user-card/user-card';
-import { UserService } from '../../user.service';
 import { UserForm } from '../../user-form/user-form';
+import { UserService } from '../../user.service';
 import { User } from '../../user.model';
 
 @Component({
@@ -10,18 +10,24 @@ import { User } from '../../user.model';
   templateUrl: './users-page.html',
   styleUrl: './users-page.css'
 })
-export class UsersPage {
+export class UsersPage implements OnInit {
   protected readonly title = signal('Gestion des utilisateurs');
 
   private readonly userService = inject(UserService);
 
   protected readonly users = this.userService.users;
+  protected readonly chargement = this.userService.chargement;
+  protected readonly erreur = this.userService.erreur;
 
-  supprimerUser(id: number) {
-    this.userService.supprimer(id);
+  ngOnInit() {
+    this.userService.charger();
   }
 
-  ajouterUser(user: Omit<User, 'id'>) {
-    this.userService.ajouter(user);
+  async ajouterUser(user: Omit<User, 'id'>) {
+    await this.userService.ajouter(user);
+  }
+
+  async supprimerUser(id: number) {
+    await this.userService.supprimer(id);
   }
 }

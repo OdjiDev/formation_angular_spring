@@ -1,16 +1,22 @@
 <h1>{{ title() }}</h1>
+
 <app-user-form (ajouter)="ajouterUser($event)" />
 
-<p class="compteur">Nombre d'utilisateurs : {{ users().length }}</p>
+@if (chargement()) {
+  <p>Chargement en cours...</p>
+} @else if (erreur()) {
+  <p class="erreur">{{ erreur() }}</p>
+} @else {
+  <p class="compteur">Nombre d'utilisateurs : {{ users().length }}</p>
 
-<hr>
-<hr>
+  <hr>
 
-@for (user of users(); track user.id) {
-  <app-user-card
-    [user]="user"
-    (supprimer)="supprimerUser($event)"
-  />
-} @empty {
-  <p>Aucun utilisateur.</p>
+  @for (user of users(); track user.id) {
+    <app-user-card
+      [user]="user"
+      (supprimer)="supprimerUser($event)"
+    />
+  } @empty {
+    <p>Aucun utilisateur.</p>
+  }
 }

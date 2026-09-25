@@ -1,24 +1,41 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
+import { UsersApi } from './users.api';
 import { User } from './user.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  private readonly _users = signal<User[]>([
-    { id: 1, nom: 'Alice Dupont', email: 'alice@exemple.com', role: 'admin', actif: true },
-    { id: 2, nom: 'Bob Martin', email: 'bob@exemple.com', role: 'user', actif: true },
-    { id: 3, nom: 'Claire Petit', email: 'claire@exemple.com', role: 'guest', actif: false },
-  ]);
+  private readonly api = inject(UsersApi);
+
+  private readonly _users = signal<User[]>([]);
+  private readonly _chargement = signal(false);
+  private readonly _erreur = signal<string | null>(null);
 
   readonly users = this._users.asReadonly();
+  readonly chargement = this._chargement.asReadonly();
+  readonly erreur = this._erreur.asReadonly();
 
-  supprimer(id: number) {
+  async charger() {
+    this._chargement.set(true);
+    this._erreur.set(null);
+    try {
+      const liste = await this.api.lister();
+      this._users.set(liste);
+    } catch (e) {
+      this._erreur.set('Impossible de charger les utilisateurs.');
+    } finally {
+      this._chargement.set(false);
+    }
+  }
+
+  async ajouter(user: Omit<User, 'id'>) {
+    const cree = await this.api.creer(user);
+    this._users.update(liste => [...liste, cree]);
+  }
+
+  async supprimer(id: number) {
+    await this.api.supprimer(id);
     this._users.update(liste => liste.filter(u => u.id !== id));
   }
-
-  ajouter(user: Omit<User, 'id'>) {
-    const nouvelId = Math.max(0, ...this._users().map(u => u.id)) + 1;
-    this._users.update(liste => [...liste, { ...user, id: nouvelId }]);
-  }
-}
+}""
