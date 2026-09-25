@@ -1,1 +1,23 @@
-<p>user-card works!</p>
+<div class="user-card" [class.inactif]="!user().actif">
+  <div class="header">
+    <h3>{{ user().nom }}</h3>
+    <span class="role" [class.admin]="user().role === 'admin'">
+      {{ user().role }}
+    </span>
+  </div>
+
+  <p class="email">{{ user().email }}</p>
+
+  <p class="statut">
+    Statut :
+    @if (user().actif) {
+      <span class="actif">Actif</span>
+    } @else {
+      <span class="inactif-txt">Inactif</span>
+    }
+  </p>
+
+  <button (click)="onSupprimer()" class="btn-suppr">
+    Supprimer
+  </button>
+</div>
