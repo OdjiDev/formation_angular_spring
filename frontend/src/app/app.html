@@ -1,7 +1,14 @@
-<h1>{{ title() }}</h1>
-<p>Test du composant racine.</p>
+<header>
+  <nav>
+    <a routerLink="/">Accueil</a>
+    <a routerLink="/users">Utilisateurs</a>
+  </nav>
+</header>
 
-<hr>
+<main>
+  <router-outlet />
+</main>
 
-<p>Compteur : {{ compteur() }}</p>
-<button (click)="incrementer()">ajouter+1</button>
+<footer>
+  <p>© 2026 — Mon App Angular</p>
+</footer>

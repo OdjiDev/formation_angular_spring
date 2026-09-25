@@ -1,19 +1,10 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component } from '@angular/core';
+import { RouterLink, RouterOutlet } from '@angular/router';
 
 @Component({
-  imports: [],
   selector: 'app-root',
-  styleUrl: './app.css',
+  imports: [RouterLink, RouterOutlet],
   templateUrl: './app.html',
+  styleUrl: './app.css'
 })
-export class App {
-
-protected readonly title = signal('Mon App Angular');
-  protected readonly compteur = signal(0);
-
-  incrementer() {
-    this.compteur.update(v => v + 1);
-  }
-
-}
+export class App {}

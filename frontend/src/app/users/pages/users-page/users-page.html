@@ -1,0 +1,15 @@
+<h1>{{ title() }}</h1>
+<p>Nombre d'utilisateurs : {{ users().length }}</p>
+
+<button (click)="ajouterUserTest()">Ajouter un utilisateur test</button>
+
+<hr>
+
+@for (user of users(); track user.id) {
+  <app-user-card
+    [user]="user"
+    (supprimer)="supprimerUser($event)"
+  />
+} @empty {
+  <p>Aucun utilisateur.</p>
+}
