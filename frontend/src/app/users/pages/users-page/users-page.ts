@@ -1,10 +1,12 @@
 import { Component, inject, signal } from '@angular/core';
 import { UserCard } from '../../user-card/user-card';
 import { UserService } from '../../user.service';
+import { UserForm } from '../../user-form/user-form';
+import { User } from '../../user.model';
 
 @Component({
   selector: 'app-users-page',
-  imports: [UserCard],
+  imports: [UserCard, UserForm],
   templateUrl: './users-page.html',
   styleUrl: './users-page.css'
 })
@@ -19,12 +21,7 @@ export class UsersPage {
     this.userService.supprimer(id);
   }
 
-  ajouterUserTest() {
-    this.userService.ajouter({
-      nom: 'Nouvel Utilisateur',
-      email: 'nouveau@exemple.com',
-      role: 'user',
-      actif: true
-    });
+  ajouterUser(user: Omit<User, 'id'>) {
+    this.userService.ajouter(user);
   }
 }

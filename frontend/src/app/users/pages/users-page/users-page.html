@@ -1,8 +1,9 @@
 <h1>{{ title() }}</h1>
-<p>Nombre d'utilisateurs : {{ users().length }}</p>
+<app-user-form (ajouter)="ajouterUser($event)" />
 
-<button (click)="ajouterUserTest()">Ajouter un utilisateur test</button>
+<p class="compteur">Nombre d'utilisateurs : {{ users().length }}</p>
 
+<hr>
 <hr>
 
 @for (user of users(); track user.id) {

@@ -1,0 +1,79 @@
+<form (ngSubmit)="onSubmit()" #formRef="ngForm" class="user-form">
+  <h3>Ajouter un utilisateur</h3>
+
+  <!-- Nom -->
+  <div class="champ">
+    <label for="nom">Nom *</label>
+    <input
+      id="nom"
+      type="text"
+      [ngModel]="nom()"
+      (ngModelChange)="nom.set($event)"
+      name="nom"
+      placeholder="Alice Dupont"
+      [class.invalide]="envoye() && !nomValide()"
+    />
+    @if (envoye() && !nomValide()) {
+      <p class="erreur">Le nom doit contenir au moins 2 caractères.</p>
+    }
+  </div>
+
+  <!-- Email -->
+  <div class="champ">
+    <label for="email">Email *</label>
+    <input
+      id="email"
+      type="email"
+      [ngModel]="email()"
+      (ngModelChange)="email.set($event)"
+      name="email"
+      placeholder="alice@exemple.com"
+      [class.invalide]="envoye() && !emailValide()"
+    />
+    @if (envoye() && !emailValide()) {
+      <p class="erreur">Veuillez saisir un email valide.</p>
+    }
+  </div>
+
+  <!-- Rôle -->
+  <div class="champ">
+    <label for="role">Rôle *</label>
+    <select
+      id="role"
+      [ngModel]="role()"
+      (ngModelChange)="role.set($event)"
+      name="role"
+    >
+      <option value="user">Utilisateur</option>
+      <option value="admin">Administrateur</option>
+      <option value="guest">Invité</option>
+    </select>
+  </div>
+
+  <!-- Actif -->
+  <div class="champ-checkbox">
+    <label>
+      <input
+        type="checkbox"
+        [ngModel]="actif()"
+        (ngModelChange)="actif.set($event)"
+        name="actif"
+      />
+      Compte actif
+    </label>
+  </div>
+
+  <!-- Boutons -->
+  <div class="actions">
+    <button
+      type="submit"
+      [disabled]="!formulaireValide()"
+      class="btn-ajouter"
+    >
+      Ajouter
+    </button>
+    <button type="button" (click)="reset()" class="btn-reset">
+      Réinitialiser
+    </button>
+  </div>
+</form>
